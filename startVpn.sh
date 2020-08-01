@@ -98,7 +98,7 @@ if $tmux ;then
   #create new session with the name and detach from it for now
   $tmux new-session -d -s $sessionName
 
-  $tmux send-keys "sudo $0"
+  $tmux send-keys "sudo $0 -n -t"
 
   if $defaultRoute ;then
     $tmux send-keys " -d"
