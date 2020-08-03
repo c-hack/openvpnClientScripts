@@ -68,7 +68,7 @@ counter=0
 while [ $counter -lt $optionCount ] ;do
   o="${args[$counter]}"
   if   [ "$o" == "-h" ] || [ "$o" == "--help" ] ;then printHelp; exit
-  elif [ "$o" == "-n" ] || [ "$o" == "--not" ] ;then if $invert ;then echo "Cannot invert $o" ;else invert=true ;fi
+  elif [ "$o" == "-n" ] || [ "$o" == "--not" ] ;then if $invert ;then echo "Cannot invert $o" ;exit ;else invert=true ;fi
   elif [ "$o" == "-d" ] || [ "$o" == "--default-route" ] ;then if $invert ;then defaultRoute=false ;invert=false ;else defaultRoute=true ;fi
   elif [ "$o" == "-t" ] || [ "$o" == "--tmux" ] ;then if $invert ;then tmux=false ;else tmux=true ;invert=false ;fi
   else echo "Unknown option: $o";printHelp; exit
