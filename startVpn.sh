@@ -68,9 +68,9 @@ counter=0
 while [ $counter -lt $optionCount ] ;do
   o="${args[$counter]}"
   if   [ "$o" == "-h" ] || [ "$o" == "--help" ] ;then printHelp; exit
-  elif [ "$o" == "-n" ] || [ "$o" == "--not" ] ;then if $invert ;then "Cannot invert $o" ;else invert=true ;fi
-  elif [ "$o" == "-d" ] || [ "$o" == "--default-route" ] ;then if $invert ;then defaultRoute=false ;else defaultRoute=true ;fi
-  elif [ "$o" == "-t" ] || [ "$o" == "--tmux" ] ;then if $invert ;then tmux=false ;else tmux=true ;fi
+  elif [ "$o" == "-n" ] || [ "$o" == "--not" ] ;then if $invert ;then echo "Cannot invert $o" ;else invert=true ;fi
+  elif [ "$o" == "-d" ] || [ "$o" == "--default-route" ] ;then if $invert ;then defaultRoute=false ;invert=false ;else defaultRoute=true ;fi
+  elif [ "$o" == "-t" ] || [ "$o" == "--tmux" ] ;then if $invert ;then tmux=false ;else tmux=true ;invert=false ;fi
   else echo "Unknown option: $o";printHelp; exit
   fi
   counter=`expr $counter + 1`
@@ -85,6 +85,9 @@ if $tmux && ! which "sudo" > /dev/null 2>&1 ;then
 fi
 
 if $tmux ;then
+  if [ "$EUID" -eq 0 ]
+    then echo "No need to run as root when using tmux. Will use sudo inside the tmux session."
+  fi
   sessionName="VPN-$serverName"
   tmux="tmux -2"
 
